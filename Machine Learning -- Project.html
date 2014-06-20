@@ -181,9 +181,10 @@ hljs.initHighlightingOnLoad();
 <body>
 <h1>Machine learning algorithm </h1>
 
-<h3>We start with Data Slicing:</h3>
+<h3>Getting the data and cleaning it:</h3>
 
-<p>We first attempt to divid our training data set into 75% for training and 25% for testing</p>
+<p>Since the dataset is huge, we will first start by removing the NAs.
+Once we do so</p>
 
 <pre><code class="r">library(caret)
 </code></pre>
@@ -212,21 +213,103 @@ removeIndex &lt;- grep(&quot;timestamp|X|user_name|new_window&quot;, names(train
 training &lt;- training[, -removeIndex]
 </code></pre>
 
-<h4>Exporing the data</h4>
+<h3>Exporing the data</h3>
 
-<pre><code class="r">plot(mldata$classe)
+<pre><code class="r">plot(training$classe)
 </code></pre>
 
-<pre><code>## Error: object &#39;mldata&#39; not found
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-2"/> </p>
+
+<p>It&#39;s clear from the histogram that it&#39;s 5 factors variable. </p>
+
+<h3>Building the Machine learning algorithm</h3>
+
+<p>We will go with the rain forest algorithm, and we will change the train control from bootstrapping to cv,
+as that will save computing time.</p>
+
+<pre><code class="r"># using the trainControl
+fitControl &lt;- trainControl(method = &quot;cv&quot;, number = 4)
+
+## try as a factor
+modFit &lt;- train(classe ~ ., data = training, method = &quot;rf&quot;, trControl = fitControl, 
+    prox = TRUE)
+modFit$finalModel
 </code></pre>
 
-<p>We will start pre-processing by the PCA</p>
+<pre><code>## 
+## Call:
+##  randomForest(x = x, y = y, mtry = param$mtry, proximity = TRUE) 
+##                Type of random forest: classification
+##                      Number of trees: 500
+## No. of variables tried at each split: 27
+## 
+##         OOB estimate of  error rate: 0.7%
+## Confusion matrix:
+##      A    B    C    D    E class.error
+## A 1952    0    0    0    1    0.000512
+## B   10 1311    7    1    0    0.013544
+## C    0    7 1190    1    0    0.006678
+## D    0    1    9 1115    1    0.009769
+## E    0    3    0    7 1253    0.007918
+</code></pre>
 
-<p>Then I will create a model for the prediction </p>
+<h3>Sample error to be and estimate the error appropriately with cross-validation [The validation]</h3>
 
 <p>After creating the model for prediction, we want to test it with our validation dataset kept aside from the beginning when we sliced our training data.</p>
 
-<p>Then we want to test our testing dataset </p>
+<pre><code class="r">## PREDICTIONS
+predictions &lt;- predict(modFit, testing)
+## CHECKING RESULTS
+confusionMatrix(predictions, testing$classe)
+</code></pre>
+
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction    A    B    C    D    E
+##          A 3626   22    0    0    0
+##          B    1 2428   15    0   10
+##          C    0    9 2206   10    5
+##          D    0    9    3 2079    7
+##          E    0    0    0    1 2322
+## 
+## Overall Statistics
+##                                         
+##                Accuracy : 0.993         
+##                  95% CI : (0.991, 0.994)
+##     No Information Rate : 0.284         
+##     P-Value [Acc &gt; NIR] : &lt;2e-16        
+##                                         
+##                   Kappa : 0.991         
+##  Mcnemar&#39;s Test P-Value : NA            
+## 
+## Statistics by Class:
+## 
+##                      Class: A Class: B Class: C Class: D Class: E
+## Sensitivity             1.000    0.984    0.992    0.995    0.991
+## Specificity             0.998    0.997    0.998    0.998    1.000
+## Pos Pred Value          0.994    0.989    0.989    0.991    1.000
+## Neg Pred Value          1.000    0.996    0.998    0.999    0.998
+## Prevalence              0.284    0.194    0.174    0.164    0.184
+## Detection Rate          0.284    0.190    0.173    0.163    0.182
+## Detection Prevalence    0.286    0.192    0.175    0.165    0.182
+## Balanced Accuracy       0.999    0.991    0.995    0.996    0.995
+</code></pre>
+
+<h3>The test data set</h3>
+
+<p>Then we want to test our testing dataset, provided by the instructor, we will do the same thing and then go to the submission tab</p>
+
+<pre><code class="r">b &lt;- read.csv(&quot;pml-testing.csv&quot;, na.strings = c(&quot;NA&quot;, &quot;&quot;))
+NAsb &lt;- apply(b, 2, function(x) {
+    sum(is.na(x))
+})
+ba &lt;- b[, which(NAsb == 0)]
+removeIndexb &lt;- grep(&quot;timestamp|X|user_name|new_window&quot;, names(ba))
+bas &lt;- ba[, -removeIndexb]
+answers &lt;- predict(modFit, bas)
+answers &lt;- as.character(answers)
+</code></pre>
 
 </body>
 
