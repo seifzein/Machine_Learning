@@ -125,7 +125,7 @@ confusionMatrix(predictions, testing$classe)
 ## Balanced Accuracy       0.999    0.991    0.995    0.996    0.995
 ```
 
-We have a 99.3% of accuracy from this model after passing it through the validation and we can see all our results from the confussion matrix
+We have a 99.3% of accuracy from this model after passing it through the validation and we can see all our results from the confussion matrix.
 
 ### The test data set
 Then we want to test our testing dataset, provided by the instructor, we will do the same thing and then go to the submission tab
